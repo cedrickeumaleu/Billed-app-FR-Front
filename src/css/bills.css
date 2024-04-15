@@ -113,3 +113,8 @@ tr td:nth-of-type(5) {
 .bill-proof-container {
   overflow: scroll;
 }
+
+.bill-proof-container img{
+  width: 350px;
+  height: auto;
+}

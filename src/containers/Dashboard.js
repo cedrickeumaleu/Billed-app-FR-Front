@@ -14,7 +14,7 @@ export const filteredBills = (data, status) => {
         if (typeof jest !== "undefined") {
           selectCondition = bill.status === status;
         } else {
-        /* istanbul ignore next */
+          /* istanbul ignore next */
           // in prod environment
           const userEmail = JSON.parse(localStorage.getItem("user")).email;
           selectCondition =
@@ -83,7 +83,8 @@ export default class {
   }
 
   // passe en paramètre (billUrl) pour récupérer l'Url de l'image en argument
-  handleClickIconEye = (billUrl) => {
+  handleClickIconEye = () => {
+    const billUrl = $("#icon-eye-d").attr("data-bill-url");
     const imgWidth = Math.floor(
       document.querySelector("#modaleFileAdmin1").offsetWidth * 0.8
     );
@@ -157,9 +158,9 @@ export default class {
     }
 
     bills.forEach((bill) => {
-      $(`#open-bill${bill.id}`).click((e) =>
-        this.handleEditTicket(e, bill, bills)
-      );
+      $(`#open-bill${bill.id}`)
+        .off()
+        .click((e) => this.handleEditTicket(e, bill, bills));
     });
 
     return bills;
