@@ -3,7 +3,7 @@
  */
 
 // Import des bibliothèques et modules nécessaires
-import "@testing-library/jest-dom";
+import "@testing-library/jest-dom"; //import de l'extension jest
 import { fireEvent, screen, waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import NewBillUI from "../views/NewBillUI.js";
@@ -74,6 +74,7 @@ describe("Given I am connected as an employee", () => {
       fileInputLabel = screen.getByLabelText(/Justificatif/i);
     });
 
+    //restauration du contenu html
     afterEach(() => {
       document.body.innerHTML = "";
     });

@@ -2,9 +2,9 @@
  * @jest-environment jsdom
  */
 
-import "@testing-library/jest-dom";
+import "@testing-library/jest-dom"; //import de l'extension jest
 import { screen, waitFor } from "@testing-library/dom";
-import userEvent from "@testing-library/user-event";
+import userEvent from "@testing-library/user-event"; //extension de @testing-library/dom
 import BillsUI from "../views/BillsUI.js";
 import { ROUTES_PATH } from "../constants/routes.js";
 import { localStorageMock } from "../__mocks__/localStorage.js";
@@ -14,6 +14,7 @@ import mockedStore from "../__mocks__/store.js";
 import { bills } from "../fixtures/bills.js";
 import router from "../app/Router.js";
 
+// simulation du store.js
 jest.mock("../app/Store.js", () => mockedStore);
 
 //initialise l'environement de test et definir une fausse instance de localstorage
@@ -29,7 +30,7 @@ describe("Given I am connected as an employee", () => {
     );
   });
 
-  //après chaque test nettoie le contenu du corps dudocument Html
+  //je fais un (afterEach): après chaque test nettoie le contenu du corps dudocument Html
   afterEach(() => {
     document.body.innerHTML = "";
   });
@@ -45,6 +46,7 @@ describe("Given I am connected as an employee", () => {
       await waitFor(() => screen.getByTestId("icon-window"));
       const windowIcon = screen.getByTestId("icon-window");
       //to-do write expect expression
+      //assertion de vérification de valeur du test windowIcon ,selon les règles de coercition de JavaScript
       expect(windowIcon).toBeTruthy();
     });
 
@@ -67,13 +69,15 @@ describe("Given I am connected as an employee", () => {
         .sort(antiChrono)
         .map((a) => formatDate(a.date));
 
+      //assertion pour vérifié si les valeur de (displaydDate) sont strictement égales
       expect(displayedDate).toStrictEqual(mockedSortDate);
     });
   });
 
   //vérifie si l'utilisateur clique sur l'iône d'oeil d'une facture
   describe("When I am on Bills page and I click on the eye icon", () => {
-    //vérifie que la function handleClickIconeEye est appelée et qu'une modale s'ouvre avec le justificatif de la facture
+    //vérifie que la function handleClickIconeEye est appelée et qu'une modale s'ouvre avec
+    //le justificatif de la facture
     test("Then callback handleClickIconEye should be called and a modale should be open", () => {
       document.body.innerHTML = BillsUI({ data: bills });
 
@@ -90,6 +94,8 @@ describe("Given I am connected as an employee", () => {
       iconEye.forEach((icon) => {
         icon.addEventListener("click", handleClickIconEye(icon));
         userEvent.click(icon);
+
+        // assertion de vérification si (handleClickIconEye) a été appelée au moins une fois
         expect(handleClickIconEye).toHaveBeenCalled();
 
         const modale = screen.getByText("Justificatif");
@@ -115,6 +121,7 @@ describe("Given I am connected as an employee", () => {
       }).handleClickNewBill();
 
       const formNewBill = screen.getByTestId("form-new-bill");
+      //assertion qui vérifie si le (formNewBill) renvoie une valeur vraie
       expect(formNewBill).toBeTruthy();
     });
   });
@@ -141,6 +148,7 @@ describe("Given I am a user connected as employee", () => {
       router();
     });
 
+    //restauration de tous les mocks crées pendant le test
     afterEach(() => {
       jest.restoreAllMocks();
     });
