@@ -3,11 +3,18 @@ import { ROUTES_PATH } from "../constants/routes.js";
 export let PREVIOUS_LOCATION = "";
 
 export default class Login {
-  constructor({ document, localStorage, onNavigate, store }) {
+  constructor({
+    document,
+    localStorage,
+    onNavigate,
+    store,
+    PREVIOUS_LOCATION,
+  }) {
     this.document = document;
     this.localStorage = localStorage;
     this.onNavigate = onNavigate;
     this.store = store;
+    this.PREVIOUS_LOCATION = PREVIOUS_LOCATION;
     const formEmployee = this.document.querySelector(
       `form[data-testid="form-employee"]`
     );
@@ -39,6 +46,7 @@ export default class Login {
       });
   };
 
+  //dorection sur les route
   handleSubmitAdmin = (e) => {
     e.preventDefault();
     const user = {
