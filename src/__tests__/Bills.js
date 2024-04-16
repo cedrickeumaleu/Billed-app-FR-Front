@@ -16,8 +16,8 @@ import router from "../app/Router.js";
 
 jest.mock("../app/Store.js", () => mockedStore);
 
-//initialise l'environement de test et definir une fausse insance de localstorage
-//contenant un utilisateur de type enployé
+//initialise l'environement de test et definir une fausse instance de localstorage
+//contenant un utilisateur de type employé
 describe("Given I am connected as an employee", () => {
   beforeEach(() => {
     Object.defineProperty(window, "localStorage", { value: localStorageMock });

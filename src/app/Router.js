@@ -52,6 +52,7 @@ export default () => {
       const divIcon2 = document.getElementById("layout-icon2");
       divIcon1.classList.remove("active-icon");
       divIcon2.classList.add("active-icon");
+
       // redirection de l'utilisateur sur la page bill
       divIcon2.addEventListener("click", () => {
         onNavigate(ROUTES_PATH["Bills"]);

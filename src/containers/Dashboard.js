@@ -5,6 +5,7 @@ import { ROUTES_PATH } from "../constants/routes.js";
 import USERS_TEST from "../constants/usersTest.js";
 import Logout from "./Logout.js";
 
+//corection dans la gestion du filter pour la bonne utilisation de (bill) dans la condition
 export const filteredBills = (data, status) => {
   return data && data.length
     ? data.filter((bill) => {
@@ -82,7 +83,8 @@ export default class {
     new Logout({ localStorage, onNavigate });
   }
 
-  // passe en paramètre (billUrl) pour récupérer l'Url de l'image en argument
+  //gestion de la modal img
+  // récupération de de la modalaFileAdmin1 avec un querySelecteur et faire un innerHTML
   handleClickIconEye = () => {
     const billUrl = $("#icon-eye-d").attr("data-bill-url");
     const imgWidth = Math.floor(

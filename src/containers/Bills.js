@@ -29,7 +29,7 @@ export default class {
   handleClickIconEye = (icon) => {
     const billUrl = icon.getAttribute("data-bill-url");
 
-    //utilisation de querySelectorAll au lieu de $ pour sélectionner l'element (#modaleFile)
+    //utilisation de querySelector au lieu de $ pour sélectionner l'element (#modaleFile)
     const imgWidth = Math.floor(
       document.querySelector("#modaleFile").offsetWidth * 0.5
     );
