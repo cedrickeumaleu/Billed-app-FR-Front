@@ -17,13 +17,11 @@ import router from "../app/Router.js";
 // Mock du module Store
 jest.mock("../app/Store.js", () => mockedStore);
 
-// Suite de tests principale
-describe("Given I am connected as an employee", () => {
+// Suite de tests sur un utilisateur connecté en tan qu'employé
+describe("Étant donné que je suis connecté en tant qu'employé", () => {
   // Suite de tests pour la page de création de facture
-  describe("When I am on NewBill Page", () => {
-    // Vérifie que le formulaire de création de facture est affiché
-    test("Then the NewBill form should be displayed", async () => {
-      // Simule la connexion d'un utilisateur de type "Employee"
+  describe("Quand je suis sur la page NewBill", () => {
+    test("Alors, le formulaire NewBill devrait être affiché", async () => {
       localStorage.setItem(
         "user",
         JSON.stringify({ type: "Employee", email: "a@a" })
@@ -42,7 +40,7 @@ describe("Given I am connected as an employee", () => {
   });
 
   // Suite de tests pour le remplissage des champs et la soumission du formulaire de création de facture
-  describe("When I am on NewBill Page and filing in the fields to submit the form", () => {
+  describe("Quand je suis sur la page NewBill et que je remplis les champs pour soumettre le formulaire", () => {
     // Initialisation des variables nécessaires aux tests
     let billForm,
       expenseTypeInput,
@@ -80,14 +78,12 @@ describe("Given I am connected as an employee", () => {
     });
 
     // Vérifie qu'aucune erreur n'est affichée si tous les champs requis sont remplis
-    test("Then no error should be displayed so all required fields are completed", async () => {
-      // Simule la connexion d'un utilisateur de type "Employee"
+    test("Alors, aucune erreur ne devrait s'afficher afin que tous les champs obligatoires soient remplis", async () => {
       Object.defineProperty(window, "localStorage", {
         value: localStorageMock,
       });
       window.localStorage.setItem("user", JSON.stringify({ type: "Employee" }));
 
-      // Fonction de navigation simulée pour les tests
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname });
       };
@@ -117,14 +113,12 @@ describe("Given I am connected as an employee", () => {
       // Soumission du formulaire
       fireEvent.submit(billForm);
 
-      // Vérification que la page des notes de frais est affichée après la soumission
       expect(screen.getByText("Mes notes de frais")).toBeTruthy();
     });
   });
 });
 
-// Initialisation des variables nécessaires aux tests
-describe("Given I am a user connected as employee", () => {
+describe("Étant donné que je suis un utilisateur connecté en tant qu'employé", () => {
   let fileInput, onNavigate, emulatedNewBill;
 
   beforeEach(() => {
@@ -160,9 +154,9 @@ describe("Given I am a user connected as employee", () => {
     jest.restoreAllMocks();
   });
 
-  // tests d'intégration pour l'envoi des données de la facture à l'API en fonction du type de fichier
-  describe("When I navigate to NewBill page", () => {
-    test("Then the bill should not be POST on API if the proof file is not an image", async () => {
+  // tests d'intégration pour l'envoi des données de la facture à l'API en fonction du type de fichier d'image
+  describe("Quand je navigue vers la page NewBill", () => {
+    test("Alors la facture ne doit pas être POST sur API si le fichier de preuve n'est pas une image", async () => {
       const file = new File(["test"], "test.pdf", { type: "application/pdf" }); // fichier pdf
       userEvent.upload(fileInput, file, { applyAccept: false });
 
@@ -170,7 +164,8 @@ describe("Given I am a user connected as employee", () => {
       await waitFor(() => expect(emulatedNewBill.billId).toBeNull());
     });
 
-    test("Then the bill should be POST on API if the proof file is an image", async () => {
+    // si le fichier correspond à une image evoie
+    test("Alors la facture doit être POST sur API si le fichier de preuve est une image", async () => {
       const file = new File(
         ["test"],
         "https://localhost:3456/images/test.jpg",
@@ -187,7 +182,8 @@ describe("Given I am a user connected as employee", () => {
     });
   });
 
-  describe("When an error occurs on API", () => {
+  // suite de test sur lAPI
+  describe("Quand une erreur se produit sur l'API", () => {
     let file;
 
     beforeEach(() => {
@@ -197,7 +193,7 @@ describe("Given I am a user connected as employee", () => {
       });
     });
 
-    test("POST bills on API and fails with 400 message error", async () => {
+    test(" Alors, POST la facture sur l'API et échoue avec une erreur de message 400", async () => {
       mockedStore.bills.mockImplementationOnce(() => {
         return {
           create: jest.fn().mockRejectedValue(new Error("Erreur 400")),
@@ -209,7 +205,7 @@ describe("Given I am a user connected as employee", () => {
       expect(`${console.error.mock.calls[0][0]}`).toContain("Erreur 400");
     });
 
-    test("POST bills on API and fails with 500 message error", async () => {
+    test("Alors, POST la facture sur l'API et échoue avec une erreur de message 500", async () => {
       mockedStore.bills.mockImplementationOnce(() => {
         return {
           create: jest.fn().mockRejectedValue(new Error("Erreur 500")),

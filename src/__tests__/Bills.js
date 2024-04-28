@@ -17,9 +17,9 @@ import router from "../app/Router.js";
 // simulation du store.js
 jest.mock("../app/Store.js", () => mockedStore);
 
-//initialise l'environement de test et definir une fausse instance de localstorage
+//initialisation de l'environement de test et definir une fausse instance de localstorage
 //contenant un utilisateur de type employé
-describe("Given I am connected as an employee", () => {
+describe("Étant donné que je suis connecté en tant qu'employé", () => {
   beforeEach(() => {
     Object.defineProperty(window, "localStorage", { value: localStorageMock });
     window.localStorage.setItem(
@@ -30,14 +30,13 @@ describe("Given I am connected as an employee", () => {
     );
   });
 
-  //je fais un (afterEach): après chaque test nettoie le contenu du corps dudocument Html
+  //je fais un (afterEach): après chaque test pour nettoie le contenu du corps dudocument Html
   afterEach(() => {
     document.body.innerHTML = "";
   });
 
-  describe("When I am on Bills Page", () => {
-    //vérifie que l'icone de la fenêtre est présente sur la page des factures
-    test("Then bill icon in vertical layout should be highlighted", async () => {
+  describe("quand je suis sur la page de fature", () => {
+    test("Alors l'icône de la facture dans la dioposition verticale doit être mise en surbrillance", async () => {
       const root = document.createElement("div");
       root.setAttribute("id", "root");
       document.body.append(root);
@@ -50,8 +49,7 @@ describe("Given I am connected as an employee", () => {
       expect(windowIcon).toBeTruthy();
     });
 
-    //vérifie que les facture sont triées de la plus ancienne à la plus recente
-    test("Then bills should be ordered from earliest to latest", async () => {
+    test("Alors, les factures doivent être classées du plus recent au plus ancien", async () => {
       const emulatedBills = await new Bills({
         document,
         onNavigate,
@@ -74,11 +72,9 @@ describe("Given I am connected as an employee", () => {
     });
   });
 
-  //vérifie si l'utilisateur clique sur l'iône d'oeil d'une facture
-  describe("When I am on Bills page and I click on the eye icon", () => {
-    //vérifie que la function handleClickIconeEye est appelée et qu'une modale s'ouvre avec
-    //le justificatif de la facture
-    test("Then callback handleClickIconEye should be called and a modale should be open", () => {
+  //je vérifie si l'utilisateur clique sur l'iône d'oeil d'une facture
+  describe("Quand je suis sur la page Factures et que je clique sur l'icône en forme d'œil", () => {
+    test("Alors, la function handleClickIconEye doit être appelé et un modale doit être ouvert", () => {
       document.body.innerHTML = BillsUI({ data: bills });
 
       const emulatedBills = new Bills({
@@ -104,9 +100,9 @@ describe("Given I am connected as an employee", () => {
     });
   });
 
-  // vérifie que lorsque l'utilisateur click sur le bouton créer une nouvelle facture, la page s'affiche
-  describe("When I am on Bills page and I click on new bill button", () => {
-    test("Then the New Bill page should be displayed", () => {
+  // vérifie si l'utilisateur click sur le bouton créer une nouvelle facture, la page s'affiche
+  describe("Lorsque je suis sur la page Factures et que je clique sur le bouton Nouvelle facture", () => {
+    test("Alors, la page Nouvelle facture devrait s'afficher", () => {
       const root = document.createElement("div");
       root.setAttribute("id", "root");
       document.body.append(root);
@@ -128,8 +124,8 @@ describe("Given I am connected as an employee", () => {
 });
 
 //test d'intégration GET Bills, liés à la gestion des erreur lors de la récupération des factures depuis l'Api
-describe("Given I am a user connected as employee", () => {
-  describe("When an error occurs on API", () => {
+describe("Étant donné que je suis un utilisateur connecté en tant qu'employé", () => {
+  describe("Lorsqu'une erreur se produit sur l'API", () => {
     beforeEach(() => {
       jest.spyOn(mockedStore, "bills");
       Object.defineProperty(window, "localStorage", {
@@ -153,9 +149,9 @@ describe("Given I am a user connected as employee", () => {
       jest.restoreAllMocks();
     });
 
-    //vérifie les données des factures récupérées depuis l'Api sont corrompues,
-    // affiche un message d'erreur dans la console.
-    test("fetches bills from an API and send a message in console if data is corrupted", async () => {
+    //vérifie si les données des factures récupérées depuis l'Api sont corrompues,
+    // et affiche un message d'erreur dans la console.
+    test("Alors, récupère les factures depuis une Api et envoie un message dans la console si les données sont corrompues", async () => {
       console.log = jest.fn();
       mockedStore.bills.mockImplementationOnce(() => {
         return {
@@ -171,9 +167,9 @@ describe("Given I am a user connected as employee", () => {
       );
     });
 
-    // vérifie que si une erreur 404 est renvoyée par l'Api lors de la récupération des facture,
-    // une méssage d'erreur est afficher à l'utilisateru
-    test("fetches bills from an API and fails with 404 message error", async () => {
+    // vérifie si une erreur 404 est renvoyée par l'Api lors de la récupération des facture,
+    // et un méssage d'erreur est afficher à l'utilisateru
+    test("Alors récupère les factures depuis l'Api et échoue avec un message d'erreur 404", async () => {
       mockedStore.bills.mockImplementationOnce(() => {
         return {
           list: () => {
@@ -188,7 +184,8 @@ describe("Given I am a user connected as employee", () => {
       expect(message).toBeTruthy();
     });
 
-    test("fetches bills from an API and fails with 500 message error", async () => {
+    // test sur une erreur 500
+    test("Alors récupère les factures depuis l'Api et échoue avec un message d'erreur 500", async () => {
       mockedStore.bills.mockImplementationOnce(() => {
         return {
           list: () => {
